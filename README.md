@@ -58,4 +58,4 @@ Programming-Languages-Group5/
 
 ---
 
-<p align="center"><sub>© 2026 Group 5 — CCS 2105 Programming Languages. University of Kabianga.</sub></p>
+<p align="center"><sub>© 2026 Group 5 — CCS 2105 Programming Languages. Dedan Kimathi University of Technology.</sub></p>
