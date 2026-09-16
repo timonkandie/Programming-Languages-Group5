@@ -1,10 +1,10 @@
-# 🏭 Kericho Tea Factory Production Pipeline
+# Kericho Tea Factory Production Pipeline
 
 ### CCS 2105 — Programming Languages Lab: Sub-Routines & Coroutines
 
 ---
 
-## 👥 Group 5 Members
+## Group 5 Members
 
 | # | Name | Registration Number | Contribution |
 |---|------|---------------------|-------------|
@@ -14,11 +14,11 @@
 
 ---
 
-## 📖 System Documentation
+## System Documentation
 
 ### 1. Problem Statement
 
-In a real-world tea processing factory, multiple batches of tea must be processed simultaneously through a series of stages — from receiving raw leaves to final packaging. Each batch may fail quality inspection and require reprocessing, while other batches continue independently. Traditional sequential programming cannot elegantly model this interleaved, cooperative execution.
+In a real-world tea processing factory, multiple batches of tea must be processed simultaneously through a series of stages — from receiving raw leaves to final packaging. Each batch may fail quality inspection and require reprocessing, while other batches continue independently. Traditional sequential programming cannot elegantly model this interleaved, cooperative execution.
 
 This project uses **Lua coroutines** to simulate the **Kericho Tea Factory Production Pipeline**, demonstrating how cooperative multitasking can model concurrent-like workflows without true multithreading.
 
@@ -33,29 +33,29 @@ This project uses **Lua coroutines** to simulate the **Kericho Tea Factory Produ
 ### 3. System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   MAIN SCHEDULER (while loop)                    │
-│   Iterates through all batches in round-robin fashion            │
-│   Checks coroutine.status() before each resume                  │
-└──────────┬─────────────────────┬─────────────────────┬──────────┘
-           │                     │                     │
-     ┌─────┴─────┐     ┌─────┴─────┐     ┌─────┴─────┐
-     │ Batch-001 │     │ Batch-002 │     │ Batch-003 │
-     └─────┬─────┘     └─────┬─────┘     └─────┬─────┘
-           │                     │                     │
-           └───────────┬─────────┴─────────┘
-                       │
-              ┌───────┴────────┐
-              │  PIPELINE STAGES  │
-              ├─────────────────┤
-              │ 1. Receiving       │
-              │ 2. Weighing        │
-              │ 3. Withering       │
-              │ 4. Drying          │
-              │ 5. Quality Check   │─── FAIL ───┐
-              │ 6. Grading         │            │
-              │ 7. Packaging       │    Reprocess (3→4)
-              └─────────────────┘
++------------------------------------------------------------------+
+|                   MAIN SCHEDULER (while loop)                    |
+|   Iterates through all batches in round-robin fashion            |
+|   Checks coroutine.status() before each resume                  |
++----------+---------------------+---------------------+----------+
+           |                     |                     |
+     +-----+-----+         +----+------+         +----+------+
+     | Batch-001 |         | Batch-002 |         | Batch-003 |
+     +-----+-----+         +-----+-----+         +-----+-----+
+           |                     |                     |
+           +-----------+---------+---------+-----------+
+                       |
+              +--------+--------+
+              |  PIPELINE STAGES  |
+              +-----------------+
+              | 1. Receiving     |
+              | 2. Weighing      |
+              | 3. Withering     |
+              | 4. Drying        |
+              | 5. Quality Check |--- FAIL ---+
+              | 6. Grading       |            |
+              | 7. Packaging     |    Reprocess (3->4)
+              +-----------------+
 ```
 
 ### 4. Key Concepts Demonstrated
@@ -87,7 +87,7 @@ end
 
 #### 4.3 Round-Robin Cooperative Scheduler
 
-The main `while` loop acts as a scheduler, iterating through all batches in order. Before resuming a batch, it checks `coroutine.status()` to skip completed (“dead”) coroutines:
+The main `while` loop acts as a scheduler, iterating through all batches in order. Before resuming a batch, it checks `coroutine.status()` to skip completed ("dead") coroutines:
 
 ```lua
 for _, batch in ipairs(batches) do
@@ -117,7 +117,7 @@ end
 
 #### 4.5 State Persistence vs. Normal Functions
 
-When a normal Lua function returns, its execution stack is **completely destroyed**. All local variables and progress are lost. If we used normal functions for this pipeline, we would need a complex external state machine (global variables or database tables) to track each batch’s position.
+When a normal Lua function returns, its execution stack is **completely destroyed**. All local variables and progress are lost. If we used normal functions for this pipeline, we would need a complex external state machine (global variables or database tables) to track each batch's position.
 
 Coroutines **persist their state** across yields. When a coroutine yields, its execution stack, local variables (like `batchID` and `qualityPassed`), and exact line of execution are preserved in memory. When `coroutine.resume()` is called, the batch wakes up **exactly** where it left off.
 
@@ -174,11 +174,11 @@ lua Group_5\(Sub-Routines\).lua
 All factory batches processed successfully.
 ```
 
-> **Note**: Output varies between runs due to the randomized quality inspection (60% pass rate).
+**Note**: Output varies between runs due to the randomized quality inspection (60% pass rate).
 
 ### 7. Conclusion
 
-This project demonstrates that Lua coroutines provide a powerful, lightweight mechanism for modeling cooperative concurrent workflows. By using `coroutine.yield()` and `coroutine.resume()`, we achieved **quasi-concurrent** execution of multiple tea batches without the complexity of OS-level threads or external state machines. The coroutine’s built-in state persistence eliminates the need for manual progress tracking, resulting in clean, readable, and maintainable code.
+This project demonstrates that Lua coroutines provide a powerful, lightweight mechanism for modeling cooperative concurrent workflows. By using `coroutine.yield()` and `coroutine.resume()`, we achieved quasi-concurrent execution of multiple tea batches without the complexity of OS-level threads or external state machines. The coroutine's built-in state persistence eliminates the need for manual progress tracking, resulting in clean, readable, and maintainable code.
 
 ---
 

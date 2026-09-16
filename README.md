@@ -1,12 +1,12 @@
-# 📚 Programming Languages — Group 5 Lab Projects
+# Programming Languages — Group 5 Lab Projects
 
-**Course**: CCS 2105 — Programming Languages 
-**Institution**: University of Kabianga 
+**Course**: CCS 2105 — Programming Languages  
+**Institution**: University of Kabianga  
 **Academic Year**: 2025/2026
 
 ---
 
-## 👥 Group 5 Members
+## Group 5 Members
 
 | # | Name | Registration Number |
 |---|------|---------------------|
@@ -16,9 +16,9 @@
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
-This repository contains **two** Programming Languages laboratory projects, each in its own directory:
+This repository contains two Programming Languages laboratory projects, each in its own directory:
 
 ```
 Programming-Languages-Group5/
@@ -36,18 +36,18 @@ Programming-Languages-Group5/
 
 ---
 
-### 🟢 Project 1 — [Lua Sub-Routines (Coroutines)](./Lua-Sub-Routines/)
+### Project 1 — [Lua Sub-Routines (Coroutines)](./Lua-Sub-Routines/)
 
 | Detail | Description |
 |--------|-------------|
 | **Title** | Kericho Tea Factory Production Pipeline |
 | **Language** | Lua |
 | **Topic** | Sub-routines, Coroutines & Cooperative Scheduling |
-| **Summary** | Simulates a tea factory’s batch processing pipeline using Lua coroutines to demonstrate cooperative multitasking, round-robin scheduling, state persistence, quality control reprocessing loops, and safe error handling. |
+| **Summary** | Simulates a tea factory's batch processing pipeline using Lua coroutines to demonstrate cooperative multitasking, round-robin scheduling, state persistence, quality control reprocessing loops, and safe error handling. |
 
 ---
 
-### 🟡 Project 2 — [Names, Bindings and Scopes](./Names-Bindings-and-Scopes/)
+### Project 2 — [Names, Bindings and Scopes](./Names-Bindings-and-Scopes/)
 
 | Detail | Description |
 |--------|-------------|

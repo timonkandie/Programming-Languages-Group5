@@ -1,10 +1,10 @@
-# 💼 Staff Payroll & Allowance Processing Simulator
+# Staff Payroll & Allowance Processing Simulator
 
 ### CCS 2105 — Programming Languages Lab: Names, Bindings and Scopes
 
 ---
 
-## 👥 Group 5 Members
+## Group 5 Members
 
 | # | Name | Registration Number | Contribution |
 |---|------|---------------------|-------------|
@@ -14,7 +14,7 @@
 
 ---
 
-## 📖 System Documentation
+## System Documentation
 
 ### 1. Problem Statement
 
@@ -36,28 +36,28 @@ This project implements a **Staff Payroll & Allowance Processing Simulator** in 
 ### 3. System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│           GLOBAL CONSTANTS (Static Type Binding)            │
-│   OTHER_DEDUCTION, TRAINING_THRESHOLD, TIER1/2_RATE         │
-└──────────────────────────┬──────────────────────────────────┘
-                          │
-              ┌───────────┴───────────┐
-              │   Staff Struct            │
-              │   (Explicit Declaration)   │
-              │   id, name, basicPay,      │
-              │   houseAllowance, etc.     │
-              └───────────┬───────────┘
-                          │
-         ┌──────────────┼──────────────┐
-         │              │              │
-┌────────┴──────┐ ┌────┴─────────┐ ┌────┴────────┐
-│ calculateGross-│ │ calculateDed-│ │ printPayslip │
-│ Pay()          │ │ uctionsAnd-  │ │              │
-│ (Scope/       │ │ Net()        │ │ (Shadowing,  │
-│  Lifetime)    │ │ (Aliasing/   │ │  Static Var, │
-│               │ │  References) │ │  auto/Type   │
-└───────────────┘ └──────────────┘ │  Inference)  │
-                                  └─────────────┘
++-------------------------------------------------------------+
+|           GLOBAL CONSTANTS (Static Type Binding)            |
+|   OTHER_DEDUCTION, TRAINING_THRESHOLD, TIER1/2_RATE         |
++--------------------------+----------------------------------+
+                           |
+              +------------+-----------+
+              |   Staff Struct            |
+              |   (Explicit Declaration)   |
+              |   id, name, basicPay,      |
+              |   houseAllowance, etc.     |
+              +-----------+------------+
+                          |
+         +----------------+----------------+
+         |                |                |
++--------+------+ +-------+------+ +------+---------+
+| calculateGross| | calculateDed-| | printPayslip   |
+| Pay()         | | uctionsAnd-  | |                |
+| (Scope/       | | Net()        | | (Shadowing,    |
+|  Lifetime)    | | (Aliasing/   | |  Static Var,   |
+|               | |  References) | |  auto/Type     |
++---------------+ +--------------+ |  Inference)    |
+                                   +----------------+
 ```
 
 ### 4. Key Concepts Demonstrated
@@ -73,7 +73,7 @@ const double TIER1_RATE = 0.10;
 const double TIER2_RATE = 0.15;
 ```
 
-**Concept**: The binding between the name `OTHER_DEDUCTION` and its type `double` is established statically (at compile time) and cannot change during execution.
+The binding between the name `OTHER_DEDUCTION` and its type `double` is established statically (at compile time) and cannot change during execution.
 
 #### 4.2 Explicit Declarations (Staff Struct)
 
@@ -107,7 +107,7 @@ double calculateGrossPay(double basic, double house, double transport) {
 
 #### 4.4 Aliasing via Reference Parameters
 
-The `calculateDeductionsAndNet` function uses **reference parameters** (`&`), creating **aliases** for the caller’s variables. Modifying `trainingOut` inside the function directly modifies the original variable in the caller’s memory:
+The `calculateDeductionsAndNet` function uses **reference parameters** (`&`), creating **aliases** for the caller's variables. Modifying `trainingOut` inside the function directly modifies the original variable in the caller's memory:
 
 ```cpp
 void calculateDeductionsAndNet(double gross, double &trainingOut, 
@@ -118,7 +118,7 @@ void calculateDeductionsAndNet(double gross, double &trainingOut,
 }
 ```
 
-**Concept**: `trainingOut` and `currentStaff.trainingDeduction` refer to the **same memory location**. This is aliasing — two different names bound to the same address.
+`trainingOut` and `currentStaff.trainingDeduction` refer to the **same memory location**. This is aliasing — two different names bound to the same address.
 
 #### 4.5 Variable Shadowing (Nested Block Experiment)
 
@@ -136,7 +136,7 @@ void printPayslip(const Staff& s) {
 }
 ```
 
-**Output** demonstrates the compiler resolves the inner `basicPay` to `9999.99` while the outer remains unchanged at the actual staff basic pay.
+The output demonstrates that the compiler resolves the inner `basicPay` to `9999.99` while the outer remains unchanged at the actual staff basic pay.
 
 #### 4.6 Type Inference (`auto` keyword)
 
@@ -147,7 +147,7 @@ auto gross = s.grossPay;   // Compiler infers: double
 auto net = s.netPay;       // Compiler infers: double
 ```
 
-**Concept**: This is still static type binding — the type is determined at compile time, not runtime. The programmer simply omits the explicit type declaration.
+This is still static type binding — the type is determined at compile time, not runtime. The programmer simply omits the explicit type declaration.
 
 #### 4.7 Static Local Variables
 
@@ -161,17 +161,17 @@ void printPayslip(const Staff& s) {
 }
 ```
 
-**Concept**: Unlike regular local variables (which are created and destroyed with each call), `payslipCount` retains its value between function invocations, enabling automatic payslip numbering.
+Unlike regular local variables (which are created and destroyed with each call), `payslipCount` retains its value between function invocations, enabling automatic payslip numbering.
 
 ### 5. Input Validation & Error Handling
 
-The system tests **three exceptional cases** to demonstrate robustness:
+The system tests three exceptional cases to demonstrate robustness:
 
 | # | Error Case | Input Example | Response |
 |---|------------|---------------|----------|
-| 1 | **Blank name** | *(empty)* | `[Error Test Run] Name cannot be blank. Record rejected.` |
-| 2 | **Non-numeric pay** | `Ten Thousand` | `[Error Test Run] Invalid data type. Please enter numbers only. Record rejected.` |
-| 3 | **Negative pay** | `-10000` | `[Error Test Run] Basic pay cannot be negative. Record rejected.` |
+| 1 | Blank name | *(empty)* | `[Error Test Run] Name cannot be blank. Record rejected.` |
+| 2 | Non-numeric pay | `Ten Thousand` | `[Error Test Run] Invalid data type. Please enter numbers only. Record rejected.` |
+| 3 | Negative pay | `-10000` | `[Error Test Run] Basic pay cannot be negative. Record rejected.` |
 
 ### 6. How to Compile & Run
 
@@ -199,7 +199,7 @@ The system requires a **minimum of 5 staff records** before generating the payro
 
 ### 8. Conclusion
 
-This project successfully demonstrates the core programming language concepts of **names**, **bindings**, **scopes**, **aliasing**, **shadowing**, and **type inference** within a practical payroll processing context. Each concept is clearly labelled in the source code with comments explaining the underlying theory. The three error handling test cases validate the system’s robustness, while the shadowing experiment and static variable counter provide visible, measurable proof of how the C++ compiler resolves naming conflicts and manages variable lifetimes.
+This project successfully demonstrates the core programming language concepts of **names**, **bindings**, **scopes**, **aliasing**, **shadowing**, and **type inference** within a practical payroll processing context. Each concept is clearly labelled in the source code with comments explaining the underlying theory. The three error handling test cases validate the system's robustness, while the shadowing experiment and static variable counter provide visible, measurable proof of how the C++ compiler resolves naming conflicts and manages variable lifetimes.
 
 ---
 
