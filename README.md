@@ -1,7 +1,7 @@
 # Programming Languages — Group 5 Lab Projects
 
 **Course**: CCS 2105 — Programming Languages  
-**Institution**: University of Kabianga  
+**Institution**: Dedan Kimathi University of Technology 
 **Academic Year**: 2025/2026
 
 ---
